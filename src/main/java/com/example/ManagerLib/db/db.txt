@@ -1,0 +1,43 @@
+CREATE table libraries(
+	id int PRIMARY key AUTO_INCREMENT,
+    address varchar(100),
+    name_lib varchar(100)
+);
+
+create table categories(
+	id int PRIMARY KEY AUTO_INCREMENT,
+    name_category varchar(100)
+);
+
+
+
+create TABLE authors(
+    id int primary key AUTO_INCREMENT,
+    name_author varchar(100),
+    date_of_birth date
+);
+
+CREATE TABLE books(
+	id int PRIMARY key AUTO_INCREMENT,
+    book_title varchar(200),
+    isbn varchar(20) UNIQUE,
+    id_lib int ,
+    id_category int,
+    CONSTRAINT fk_books_id_lib FOREIGN Key(id_lib) REFERENCES libraries(id),
+    CONSTRAINT fk_books_id_category Foreign key(id_category) REFERENCES categories(id)
+);
+
+create table book_author (
+	id int primary key auto_increment,
+    id_book int,
+    id_author int,
+    CONSTRAINT fk_book_author_id_book FOREIGN key(id_book) REFERENCES books(id),
+    CONSTRAINT fk_book_author_id_author foreign key(id_author) REFERENCES AUTHORS(id)
+);
+
+create table images(
+	id int PRIMARY key AUTO_INCREMENT,
+    id_book int,
+    image_url varchar(50) UNIQUE,
+    constraint fk_images_id_book foreign key(id_book) REFERENCES books(id)
+)
