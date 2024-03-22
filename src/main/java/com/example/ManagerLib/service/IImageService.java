@@ -16,4 +16,5 @@ public interface IImageService {
 
     String saveImage(MultipartFile file) throws IOException, FileUploadException;
     List<Image> createListImage(List<String> urlImages, Book book) throws FileUploadException, IOException;
+    Map upload(MultipartFile file);
 }

@@ -1,5 +1,6 @@
 package com.example.ManagerLib.service;
 
+import com.cloudinary.Cloudinary;
 import com.example.ManagerLib.entity.Book;
 import com.example.ManagerLib.entity.Image;
 import com.example.ManagerLib.exceptions.DataNotFoundException;
@@ -22,6 +23,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ImageServiceImpl implements IImageService{
     private final ImageRepository imageRepository;
+    private final Cloudinary cloudinary;
+
     @Override
     public Image createImage(Image newImage) {
         Image image = imageRepository.save(newImage);
@@ -80,6 +83,16 @@ public class ImageServiceImpl implements IImageService{
         List<Image> savedImages = imageRepository.saveAll(images);
         return savedImages;
 
+    }
+
+    @Override
+    public Map upload(MultipartFile file) {
+        try{
+            Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
+            return data;
+        }catch (IOException io){
+            throw new RuntimeException("Image upload fail");
+        }
     }
 
 }
