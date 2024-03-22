@@ -12,8 +12,10 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    @Query("select c from Category c left join fetch c.bookList " +
+    @Query(value = "select c from Category c left join fetch c.bookList " +
             "where (:keyword is null or " +
+            "  Lower(c.nameCategory) like LOWER(CONCAT('%', :keyword, '%')))",
+    countQuery = "select count(c) from Category c where (:keyword is null or " +
             "  Lower(c.nameCategory) like LOWER(CONCAT('%', :keyword, '%')))")
     Page<Category> getAllCategories(@Param("keyword") String keyword, Pageable pageable);
 

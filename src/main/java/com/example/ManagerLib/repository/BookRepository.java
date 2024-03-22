@@ -22,7 +22,15 @@ public interface BookRepository extends JpaRepository<Book,Long>, PagingAndSorti
             "and (:isbn is null or lower(b.isbn) like LOWER(CONCAT('%', :isbn, '%'))) " +
             "and (:category is null or lower(b.category.nameCategory) like LOWER(CONCAT('%', :category, '%'))) " +
             "and (:publicationDateFrom is null  or b.dateOfPublication >= :publicationDateFrom) " +
-            "and (:publicationDateTo is null or b.dateOfPublication <= :publicationDateTo)")
+            "and (:publicationDateTo is null or b.dateOfPublication <= :publicationDateTo)",
+        countQuery = "select count(b) from Book b " +
+                "where (b.library.id=:idLib) " +
+                "and (:bookTitle is null Or lower(b.bookTitle) like LOWER(CONCAT('%', :bookTitle, '%'))) " +
+                "and (:isbn is null or lower(b.isbn) like LOWER(CONCAT('%', :isbn, '%'))) " +
+                "and (:category is null or lower(b.category.nameCategory) like LOWER(CONCAT('%', :category, '%'))) " +
+                "and (:publicationDateFrom is null  or b.dateOfPublication >= :publicationDateFrom) " +
+                "and (:publicationDateTo is null or b.dateOfPublication <= :publicationDateTo)"
+    )
     Page<Book> searchBook(@Param("idLib") Long idLib,
                           @Param("isbn") String isbn,
                           @Param("bookTitle") String bookTitle,

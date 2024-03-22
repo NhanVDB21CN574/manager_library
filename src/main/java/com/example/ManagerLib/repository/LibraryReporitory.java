@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface LibraryReporitory extends JpaRepository<Library,Long> {
 
     @Query(value = "select l from Library l left join fetch l.listBooks " +
+            "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ",
+    countQuery = "select count(l) from Library l " +
             "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ")
     Page<Library> getAllLibraries(@Param("keyword") String keyword, Pageable pageable);
 

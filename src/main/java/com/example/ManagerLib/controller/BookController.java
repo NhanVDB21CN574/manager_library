@@ -102,6 +102,35 @@ public class BookController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+//    @PostMapping("/auto")
+//    public ResponseEntity<?> autoCreateBook(){
+//        try{
+//            List<String> urls = new ArrayList<>();
+//            urls.add("3d322784-7f9e-4c50-b6c5-26ce28233a26_abc_book1.jpg");
+//            urls.add("09076197-8d4e-4d21-b982-8e54e63907ce_abc_book1.jpg");
+//            Book book = bookService.getBookById(1L);
+//            Set<Long> ida = new HashSet<>();
+//            ida.add(1L);
+//            for(int i=1;i<=3000;i++){
+//
+//                bookService.createBook(BookDTO.builder()
+//                        .bookTitle(book.getBookTitle()+i)
+//                        .description(book.getDescription()+i)
+//                        .dateOfPublication(book.getDateOfPublication())
+//                        .isbn(book.getIsbn().charAt(1)+i+"")
+//                                .idCategory(2L)
+//                                .idLibrary(1L)
+//                                .urlImages(urls)
+//                                .listIdAuthor(ida)
+//                        .build());
+//
+//            }
+//
+//            return ResponseEntity.ok().body(Mapper.mapToBookDetailResponse(book));
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBook(@PathVariable("id")Long id,BookDTO bookDTO) throws DataNotFoundException {
