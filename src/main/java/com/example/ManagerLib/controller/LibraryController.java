@@ -27,6 +27,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/libraries")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class LibraryController {
     private final ILibraryService libraryService;

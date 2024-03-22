@@ -32,6 +32,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/books")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class BookController {
 

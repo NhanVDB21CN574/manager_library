@@ -22,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AuthorController {
     private final IAuthorService authorService;
