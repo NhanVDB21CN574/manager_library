@@ -26,8 +26,8 @@ public class BookResponse {
     @JsonProperty("book_title")
     private String bookTitle;
 
-//    @JsonProperty("isbn")
-//    private String isbn;
+    @JsonProperty("isbn")
+    private String isbn;
 //    @JsonProperty("date_of_publication")
 //    private LocalDate dateOfPublication;
 
