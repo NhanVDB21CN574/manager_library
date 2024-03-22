@@ -55,6 +55,7 @@ public class Mapper {
         return BookResponse.builder()
                 .id(book.getId())
                 .isbn(book.getIsbn())
+                .dateOfPublication(book.getDateOfPublication())
                 .bookTitle(book.getBookTitle())
                 .category(book.getCategory())
                 .build();
