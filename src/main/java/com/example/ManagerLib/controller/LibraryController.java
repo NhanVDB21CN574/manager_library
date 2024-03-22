@@ -44,6 +44,7 @@ public class LibraryController {
             @RequestParam(name = "limit",defaultValue = "10") int limit
     ){
         try{
+            page= page>0?page-1:0;
             Pageable pageable = PageRequest.of(page,limit, Sort.by("name"));
             PageLibraryResponse libraries = libraryService.getAllLibraries(keyword,pageable);
             return ResponseEntity.ok().body(libraries);

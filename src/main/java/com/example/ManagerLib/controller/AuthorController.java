@@ -48,6 +48,7 @@ public class AuthorController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "limit", defaultValue = "10") int limit
     ){
+        page= page>0?page-1:0;
         Pageable pageable = PageRequest.of(page,limit, Sort.by("fullName"));
         PageAuthorResponse pageAuthorResponse = authorService.getAllAuthor(keyword,pageable);
         return ResponseEntity.ok().body(pageAuthorResponse);

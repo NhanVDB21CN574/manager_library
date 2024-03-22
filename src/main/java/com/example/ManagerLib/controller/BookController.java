@@ -54,6 +54,7 @@ public class BookController {
             ){
 
         try{
+            page= page>0?page-1:0;
             Pageable pageable =PageRequest.of(page,limit,Sort.by("bookTitle"));
             PageBookResponse pageBookResponse = bookService.searchBook(idLib,isbn,bookTitle,category,publicationDateFrom,publicationDateTo,pageable);
             return ResponseEntity.ok().body(pageBookResponse);
