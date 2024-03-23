@@ -93,7 +93,7 @@ public class BookServiceImpl implements IBookService{
         Page<Book> bookPage = bookRepository.searchBook(idLib,isbn,bookTitle,category,
                 publicationDateFrom,publicationDateTo,pageable);
         return PageBookResponse.builder()
-                .totalPage(bookPage.getTotalPages())
+                .totalItems(bookPage.getTotalElements())
                 .bookResponseList(bookPage.stream()
                         .map(book -> Mapper.mapToBookResponse(book)).collect(Collectors.toList()))
                 .build();

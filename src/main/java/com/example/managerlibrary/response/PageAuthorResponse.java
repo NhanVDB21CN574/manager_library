@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 public class PageAuthorResponse {
 
-    @JsonProperty("total_pages")
-    private int totalPages;
+    @JsonProperty("total_items")
+    private Long totalItems;
     @JsonProperty("authors_list")
     private List<AuthorResponse> authorResponseList;
 }

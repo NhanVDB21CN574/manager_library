@@ -148,6 +148,8 @@ public class BookController {
         List<String> urlImages = new ArrayList<>();
 
         files.forEach(file -> {
+
+
             Map data = imageService.upload(file);
             urlImages.add(data.get("url").toString());
         });

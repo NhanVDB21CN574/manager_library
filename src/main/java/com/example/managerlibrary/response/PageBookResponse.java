@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 public class PageBookResponse {
 
-    @JsonProperty("total_page")
-    private int totalPage;
+    @JsonProperty("total_items")
+    private Long totalItems;
     @JsonProperty("list_book")
     private List<BookResponse> bookResponseList;
 }

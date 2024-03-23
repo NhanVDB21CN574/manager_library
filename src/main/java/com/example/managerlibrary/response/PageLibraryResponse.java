@@ -11,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class PageLibraryResponse {
-    @JsonProperty("total_pages")
-    private int totalPages;
+    @JsonProperty("total_items")
+    private Long totalItems;
 
     @JsonProperty("libraries_list")
     private List<LibraryResponse> libraryResponseList;

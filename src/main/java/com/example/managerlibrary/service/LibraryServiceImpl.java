@@ -99,7 +99,7 @@ public class LibraryServiceImpl implements ILibraryService{
     public PageLibraryResponse getAllLibraries(String keyword, Pageable pageable) {
         Page<Library> allLibraries= libraryReporitory.getAllLibraries(keyword,pageable);
         return PageLibraryResponse.builder()
-                .totalPages(allLibraries.getTotalPages())
+                .totalItems(allLibraries.getTotalElements())
                 .libraryResponseList(allLibraries.stream()
                         .map(library -> Mapper.mapToLibrabyResponse(library)).toList())
                 .build();

@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements IAuthorService{
     ) {
         Page<Author> authors = authorRepository.getAllAuthor(keyword, pageable);
         return PageAuthorResponse.builder()
-                .totalPages(authors.getTotalPages())
+                .totalItems(authors.getTotalElements())
                 .authorResponseList(authors.stream().map(author -> Mapper.mapToAuthorResponse(author)).toList())
                 .build();
     }

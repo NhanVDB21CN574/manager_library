@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements ICategoryService{
     public PageCategoryResponse getAllCategories(String keyword,Pageable pageable) {
         Page<Category> categories = categoryRepository.getAllCategories(keyword,pageable);
         PageCategoryResponse pageCategoryResponse = PageCategoryResponse.builder()
-                .totalPage(categories.getTotalPages())
+                .totalItems(categories.getTotalElements())
                 .categoryResponseList(categories.stream().map(category ->
                      Mapper.mapToCategoryResponse(category)
                 ).toList())

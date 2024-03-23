@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 public class PageCategoryResponse {
 
-    @JsonProperty("total_page")
-    private int totalPage;
+    @JsonProperty("total_items")
+    private Long totalItems;
 
     @JsonProperty("categories_list")
     private List<CategoryResponse> categoryResponseList;
