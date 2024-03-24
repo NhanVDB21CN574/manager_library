@@ -42,9 +42,8 @@ public interface BookRepository extends JpaRepository<Book,Long>, PagingAndSorti
 
 
     @Query(value = "select DISTINCT b " +
-            "from Book b left join fetch b.category left join fetch b.library left join fetch b.listAuthor " +
-            " left join fetch b.listImage " +
-            "where b.id=:id")
+            "from Book b  " +
+            "where b.id=:id ")
     Optional<Book> getBookById(@Param("id") Long id);
 
 

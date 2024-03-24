@@ -19,7 +19,10 @@ public interface AuthorRepository extends JpaRepository<Author,Long> {
     countQuery = "select count(a) from Author a where ((length(:keyword)=0) or Lower(a.fullName) like LOWER(CONCAT('%', :keyword, '%')))")
     Page<Author> getAllAuthor(String keyword,Pageable pageable);
 
-    @Query(value = "select a from Author a left join fetch a.listBook " +
+//    @Query(value = "select a from Author a left join fetch a.listBook " +
+//            "where a.id=:id")
+//    Optional<Author> getAuthorById(Long id);
+    @Query(value = "select a from Author a  " +
             "where a.id=:id")
     Optional<Author> getAuthorById(Long id);
 }
