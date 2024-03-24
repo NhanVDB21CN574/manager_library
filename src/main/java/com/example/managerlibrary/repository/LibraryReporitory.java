@@ -12,16 +12,6 @@ import java.util.Optional;
 
 public interface LibraryReporitory extends JpaRepository<Library,Long> {
 
-//    @Query(value = "select distinct l from Library l left join fetch l.listBooks " +
-//            "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ",
-//    countQuery = "select count(l) from Library l " +
-//            "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ")
-//    Page<Library> getAllLibraries(@Param("keyword") String keyword, Pageable pageable);
-//@Query(value = "select distinct l from Library l " +
-//        "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ",
-//        countQuery = "select count(l) from Library l " +
-//                "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ")
-//Page<Library> getAllLibraries(@Param("keyword") String keyword, Pageable pageable);
 
     @Query(value = "select distinct l.id " +
             "from Library l " +
@@ -30,12 +20,7 @@ public interface LibraryReporitory extends JpaRepository<Library,Long> {
     )
     Page<Long> getAllLibraryIdsByName(@Param("keyword") String keyword, Pageable pageable);
 
-//    @Query(value = "select distinct l " +
-//            "from Library l " +
-//            "where lower( l.name) like lower(CONCAT('%', :keyword, '%')) ",
-//            countQuery = "select count(l) from Library l where lower( l.name) like lower(CONCAT('%', :keyword, '%'))"
-//    )
-//    Page<Library> getAllLibrariesByName2(@Param("keyword") String keyword, Pageable pageable);
+
     @Query(value = "select l from Library l " +
             "left join fetch l.listBooks " +
             "where l.id in :ids")
