@@ -50,7 +50,7 @@ public class BookServiceImpl implements IBookService{
                 .build();
         Book addedBook = bookRepository.save(book);
         List<Image> images = imageService.createListImage(bookDTO.getUrlImages(),addedBook);
-        addedBook.setListImage(images);
+        addedBook.setListImage(images.stream().collect(Collectors.toSet()));
         return addedBook;
     }
 

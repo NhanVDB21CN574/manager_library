@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -48,9 +49,10 @@ public class CategoryServiceImpl implements ICategoryService{
 
     @Override
     public PageCategoryResponse getAllCategories(String keyword,Pageable pageable) {
-        Page<Category> categories = categoryRepository.getAllCategories(keyword,pageable);
+        Page<Long> allCategoryIdsByName = categoryRepository.getAllCategoryIdsByName(keyword,pageable);
+        List<Category> categories = categoryRepository.getAllCategories(allCategoryIdsByName.toList());
         PageCategoryResponse pageCategoryResponse = PageCategoryResponse.builder()
-                .totalItems(categories.getTotalElements())
+                .totalItems(allCategoryIdsByName.getTotalElements())
                 .categoryResponseList(categories.stream().map(category ->
                      Mapper.mapToCategoryResponse(category)
                 ).toList())

@@ -13,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +61,7 @@ public class LibraryServiceImpl implements ILibraryService{
 
                 List<String> urlImages = bookDTO.getUrlImages();
                 List<Image> addedImages = imageService.createListImage(urlImages,newBook);
-                newBook.setListImage(addedImages);
+                newBook.setListImage(addedImages.stream().collect(Collectors.toSet()));
                 addedBooks.add(newBook);
             } catch (DataNotFoundException e) {
                 throw new RuntimeException(e);
@@ -96,10 +98,13 @@ public class LibraryServiceImpl implements ILibraryService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageLibraryResponse getAllLibraries(String keyword, Pageable pageable) {
-        Page<Library> allLibraries= libraryReporitory.getAllLibraries(keyword,pageable);
+//        Page<Library> allLibraries= libraryReporitory.getAllLibraries(libraryReporitory.getAllLibrariesByName(keyword,pageable));
+        Page<Long> allLibraryIdsByName = libraryReporitory.getAllLibraryIdsByName(keyword,pageable);
+        List<Library> allLibraries= libraryReporitory.getAllLibraries(allLibraryIdsByName.toList());
         return PageLibraryResponse.builder()
-                .totalItems(allLibraries.getTotalElements())
+                .totalItems(allLibraryIdsByName.getTotalElements())
                 .libraryResponseList(allLibraries.stream()
                         .map(library -> Mapper.mapToLibrabyResponse(library)).toList())
                 .build();

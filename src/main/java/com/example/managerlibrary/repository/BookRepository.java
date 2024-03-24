@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book,Long>, PagingAndSortingRepository<Book,Long> {
@@ -42,9 +44,11 @@ public interface BookRepository extends JpaRepository<Book,Long>, PagingAndSorti
 
 
     @Query(value = "select DISTINCT b " +
-            "from Book b  " +
+            "from Book b left join fetch b.library left join fetch b.category left join fetch b.listAuthor left join fetch b.listImage " +
             "where b.id=:id ")
     Optional<Book> getBookById(@Param("id") Long id);
+
+
 
 
 }

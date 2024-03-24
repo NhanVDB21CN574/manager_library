@@ -31,7 +31,7 @@ public class BookDetailResponse {
     private String description;
 
     @JsonProperty("images_list")
-    private List<Image> listImage;
+    private Set<Image> listImage;
 
     @JsonProperty("category")
     private Category category;

@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +40,14 @@ public class AuthorServiceImpl implements IAuthorService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageAuthorResponse getAllAuthor(
             String keyword, Pageable pageable
     ) {
-        Page<Author> authors = authorRepository.getAllAuthor(keyword, pageable);
+        Page<Long> allAuthorIdsByName = authorRepository.getAllAthorIdsByName(keyword,pageable);
+        List<Author> authors = authorRepository.getAllAuthor(allAuthorIdsByName.toList());
         return PageAuthorResponse.builder()
-                .totalItems(authors.getTotalElements())
+                .totalItems(allAuthorIdsByName.getTotalElements())
                 .authorResponseList(authors.stream().map(author -> Mapper.mapToAuthorResponse(author)).toList())
                 .build();
     }

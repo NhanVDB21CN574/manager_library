@@ -42,7 +42,7 @@ public class Book {
     private Library library;
 
     @OneToMany(mappedBy = "book",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Image> listImage;
+    private Set<Image> listImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category")
