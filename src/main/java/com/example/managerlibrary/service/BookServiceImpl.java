@@ -67,22 +67,40 @@ public class BookServiceImpl implements IBookService{
     }
 
     @Override
-    public Book updateBook(Long id, BookDTO bookDTO) throws DataNotFoundException {
-        Set<Author> authorSet = new HashSet<>();
-        bookDTO.getListIdAuthor().forEach(authorId-> {
-            try {
-                authorSet.add(authorService.getAuthorById(authorId));
-            } catch (DataNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    public Book updateBook(Long id, BookDTO bookDTO) throws DataNotFoundException, FileUploadException {
         Book book = bookRepository.getBookById(id)
-                .orElseThrow(()->new DataNotFoundException("Book not found"));
+                .orElseThrow(()->new DataNotFoundException("Không tìm thấy sách cần update!"));
+        Set<Long> newAuthorIds = bookDTO.getListIdAuthor();
+
+        if(newAuthorIds!=null){
+            Set<Author> authorSet = new HashSet<>();
+            newAuthorIds.forEach(authorId-> {
+                try {
+                    authorSet.add(authorService.getAuthorById(authorId));
+                } catch (DataNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            book.setListAuthor(authorSet);
+        }
+
+        Set<Image> imageSet = book.getListImage();
+        if(imageSet==null){
+            imageSet = new HashSet<>();
+        }
+        List<String> newImageSet= bookDTO.getUrlImages();
+        if(newImageSet!=null){
+            if(imageSet.size()+newImageSet.size()>5){
+                throw new FileUploadException("Mỗi sách chỉ có tối đa 5 ảnh, sách cần cập nhật đã có "+imageSet.size()+" ảnh");
+            }
+        }
+
+
         book.setBookTitle(bookDTO.getBookTitle());
         book.setIsbn(bookDTO.getIsbn());
         book.setDateOfPublication(bookDTO.getDateOfPublication());
         book.setCategory(categoryService.getCategoryById(bookDTO.getIdCategory()));
-        book.setListAuthor(authorSet);
+//        book.setListAuthor(authorSet);
         Book updatedBook = bookRepository.save(book);
         return updatedBook;
     }

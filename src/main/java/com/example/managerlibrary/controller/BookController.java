@@ -99,6 +99,7 @@ public class BookController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 //    @PostMapping("/auto")
 //    public ResponseEntity<?> autoCreateBook(){
 //        try{
@@ -130,9 +131,15 @@ public class BookController {
 //    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable("id")Long id,BookDTO bookDTO) throws DataNotFoundException {
-        Book book = bookService.updateBook(id,bookDTO);
-        return ResponseEntity.ok().body(book);
+    public ResponseEntity<?> updateBook(@PathVariable("id")Long id,BookDTO bookDTO) throws DataNotFoundException, FileUploadException {
+        try {
+
+            Book book = bookService.updateBook(id, bookDTO);
+            return ResponseEntity.ok().body(book);
+        }catch (DataNotFoundException e)
+        {
+           return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

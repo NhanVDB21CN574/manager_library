@@ -13,7 +13,7 @@ public interface IBookService {
     Book createBook(BookDTO bookDTO) throws DataNotFoundException, FileUploadException;
     void deleteBookById(Long id);
     Book getBookById(Long id) throws DataNotFoundException;
-    Book updateBook(Long id,BookDTO bookDTO) throws DataNotFoundException;
+    Book updateBook(Long id,BookDTO bookDTO) throws DataNotFoundException, FileUploadException;
     PageBookResponse searchBook(Long idLib,
                                 String isbn,
                                 String bookTitle,
