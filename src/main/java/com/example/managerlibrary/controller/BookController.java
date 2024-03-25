@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -138,44 +139,17 @@ public class BookController {
     @PostMapping(value = "/images",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?>uploadImages(
             @ModelAttribute("files") List<MultipartFile>files
-            ){
-        files = files==null?new ArrayList<MultipartFile>():files;
-        if(files.size()>5){
-            return ResponseEntity.badRequest().body(
-                    new FileUploadException("Maximum number of images exceeded.")
-            );
+            )  {
+        try{
+            List<String> urlImages = imageService.upload(files);
+            return ResponseEntity.ok().body(urlImages);
+        }catch ( FileUploadException e){
+            return ResponseEntity.badRequest().body(e);
         }
-        List<String> urlImages = new ArrayList<>();
 
-        files.forEach(file -> {
-
-
-            Map data = imageService.upload(file);
-            urlImages.add(data.get("url").toString());
-        });
-        return ResponseEntity.ok().body(urlImages);
-//            for(MultipartFile file:files){
-//                long sizeOfFile = file.getSize();
-//                if(sizeOfFile==0){
-//                    continue;
-//                }
-//                if(sizeOfFile> 10*1024*1024){ //max : 10MB
-//                    return ResponseEntity.badRequest().body(
-//                            new FileUploadException("the file you uploaded is too large")
-//                    );
-//                }
-//                String contentType = file.getContentType();
-//                if(contentType == null ||!contentType.startsWith("image/")){
-//                    return ResponseEntity.badRequest().body(
-//                            new FileUploadException("Must be image")
-//                    );
-//                }
-//                String uniqueFilename = imageService.saveImage(file);
-//                urlImages.add(uniqueFilename);
-//            }
-//            return ResponseEntity.ok().body(urlImages);
-
-
+//
     }
 
 }
+
+

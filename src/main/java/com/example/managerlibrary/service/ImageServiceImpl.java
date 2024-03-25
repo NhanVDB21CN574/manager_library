@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -83,13 +84,78 @@ public class ImageServiceImpl implements IImageService{
     }
 
     @Override
-    public Map upload(MultipartFile file) {
-        try{
-            Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
-            return data;
-        }catch (IOException io){
-            throw new RuntimeException("Image upload fail");
+    public List<String> upload(List<MultipartFile>files) throws FileUploadException {
+
+//            files = files==null?new ArrayList<MultipartFile>():files;
+//            if(files.size()>5){
+//                throw new FileUploadException("Số ảnh tải lên cho mỗi sách tối đa là 5 ảnh.");
+//            }
+//            List<String> urlImages = new ArrayList<>();
+////            Map data = null;
+//                files.forEach(file -> {
+//                            long sizeOfFile = file.getSize();
+//                            if (sizeOfFile > 10 * 1024 * 1024) { //max : 10MB
+//                               try {
+//                                    throw new FileUploadException("Độ lớn ảnh tải lên nhỏ hơn 10MB");
+//                                } catch (FileUploadException e) {
+//                                    throw new RuntimeException(e);
+//                                }
+//                            }
+//                            String contentType = file.getContentType();
+//                            if (contentType == null || !contentType.startsWith("image/")) {
+//                                try {
+//                                    throw new FileUploadException("Định dạng File không hỗ trợ");
+//                                } catch (FileUploadException e) {
+//                                    throw new RuntimeException(e.getMessage());
+//                                }
+//                            }
+//                            String filename = file.getOriginalFilename();
+//                            if (filename == null) {
+//                                try {
+//                                    throw new FileUploadException("Định dạng File không hỗ trợ");
+//                                } catch (FileUploadException e) {
+//                                    throw new RuntimeException(e.getMessage());
+//                                }
+//                            }
+//                    try {
+//                        Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
+//                        urlImages.add(data.get("url").toString());
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e.getMessage());
+//                    }
+//
+//                });
+//
+//            return urlImages;
+        files = files == null ? new ArrayList<MultipartFile>() : files;
+        if (files.size() > 5) {
+            throw new FileUploadException("Số ảnh tải lên cho mỗi sách tối đa là 5 ảnh.");
         }
+        List<String> urlImages = new ArrayList<>();
+        for (MultipartFile file : files) {
+            long sizeOfFile = file.getSize();
+            if (sizeOfFile > 10 * 1024 * 1024) { //max : 10MB
+                throw new FileUploadException("Độ lớn ảnh tải lên nhỏ hơn 10MB");
+            }
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new FileUploadException("Định dạng File không hỗ trợ");
+            }
+            String filename = file.getOriginalFilename();
+            if (filename == null) {
+                throw new FileUploadException("Định dạng File không hỗ trợ");
+            }
+            try {
+                Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
+                urlImages.add(data.get("url").toString());
+            } catch (IOException e) {
+                throw new FileUploadException(e.getMessage());
+            }
+        }
+        return urlImages;
+
+
+
     }
 
 }
