@@ -5,6 +5,7 @@ import com.example.managerlibrary.entity.*;
 import com.example.managerlibrary.exceptions.DataNotFoundException;
 import com.example.managerlibrary.exceptions.FileUploadException;
 import com.example.managerlibrary.mapper.Mapper;
+import com.example.managerlibrary.response.DeleteResponse;
 import com.example.managerlibrary.response.PageBookResponse;
 import com.example.managerlibrary.service.*;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,9 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBookById(@PathVariable("id")Long id){
         bookService.deleteBookById(id);
-        return ResponseEntity.ok().body("Deleted book successfully");
+        String message = new String("Deleted book successfully");
+        return ResponseEntity.ok().body(DeleteResponse.builder()
+                .message(message).build());
     }
     @GetMapping("/images")
     public ResponseEntity<?> viewImage(@RequestParam("url_image") String imageName) throws MalformedURLException {

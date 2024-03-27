@@ -17,7 +17,7 @@ public interface BookRepository extends JpaRepository<Book,Long>, PagingAndSorti
 
 
     @Query(value = "select DISTINCT  b " +
-            "from Book b join fetch b.category " +
+            "from Book b  " + //join fetch b.category
             "where (b.library.id=:idLib) " +
             "and (:bookTitle is null Or lower(b.bookTitle) like LOWER(CONCAT('%', :bookTitle, '%'))) " +
             "and (:isbn is null or lower(b.isbn) like LOWER(CONCAT('%', :isbn, '%'))) " +

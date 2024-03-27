@@ -5,6 +5,7 @@ import com.example.managerlibrary.entity.Author;
 import com.example.managerlibrary.exceptions.DataNotFoundException;
 import com.example.managerlibrary.mapper.Mapper;
 import com.example.managerlibrary.response.AuthorResponse;
+import com.example.managerlibrary.response.DeleteResponse;
 import com.example.managerlibrary.response.PageAuthorResponse;
 import com.example.managerlibrary.service.IAuthorService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,9 @@ public class AuthorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAuthor(@PathVariable("id") Long id){
         authorService.deleteAuthorById(id);
-        return ResponseEntity.ok().body("Deleted Author successfully");
+        String message = new String("Deleted Author successfully");
+        return ResponseEntity.ok().body(DeleteResponse.builder()
+                .message(message).build());
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) throws DataNotFoundException {

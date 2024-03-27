@@ -4,6 +4,7 @@ import com.example.managerlibrary.dto.LibraryDTO;
 import com.example.managerlibrary.entity.*;
 import com.example.managerlibrary.exceptions.DataNotFoundException;
 import com.example.managerlibrary.mapper.Mapper;
+import com.example.managerlibrary.response.DeleteResponse;
 import com.example.managerlibrary.response.PageLibraryResponse;
 import com.example.managerlibrary.service.*;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,9 @@ public class LibraryController {
             @PathVariable("id")Long id
     ){
         libraryService.deleteLibraryById(id);
-        return ResponseEntity.ok().body("delected librabry succesfully");
+        String message = new String("delected librabry succesfully");
+        return ResponseEntity.ok().body(DeleteResponse.builder()
+                .message(message).build());
     }
 
     @PutMapping("/{id}")

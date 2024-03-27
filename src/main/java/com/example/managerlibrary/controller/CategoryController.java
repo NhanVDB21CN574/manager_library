@@ -5,6 +5,7 @@ import com.example.managerlibrary.entity.Category;
 import com.example.managerlibrary.exceptions.DataNotFoundException;
 import com.example.managerlibrary.mapper.Mapper;
 import com.example.managerlibrary.response.CategoryResponse;
+import com.example.managerlibrary.response.DeleteResponse;
 import com.example.managerlibrary.response.PageCategoryResponse;
 import com.example.managerlibrary.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,9 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategoryById(@PathVariable("id") Long id){
         categoryService.deleteCategoryById(id);
-        return ResponseEntity.ok().body("Deleted category successfully");
+        String message = new String("Deleted category successfully");
+        return ResponseEntity.ok().body(DeleteResponse.builder()
+                .message(message).build());
     }
 
     @PutMapping("/{id}")
