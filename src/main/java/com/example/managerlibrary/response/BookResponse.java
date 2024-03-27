@@ -23,8 +23,8 @@ public class BookResponse {
     @JsonProperty("date_of_publication")
     private LocalDate dateOfPublication;
 
-//    @JsonProperty("description")
-//    private String description;
+    @JsonProperty("description")
+    private String description;
 
 //    @JsonProperty("images_list")
 //    private List<Image> listImage;
